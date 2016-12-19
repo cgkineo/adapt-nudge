@@ -2,7 +2,7 @@
 
 The goal of the Nudge extension is to help users become familiar with the interface of an Adapt course.
 
-![](https://cloud.githubusercontent.com/assets/1228225/21323162/2d991b10-c614-11e6-809d-e3bd3146f92b.gif)
+![](https://cloud.githubusercontent.com/assets/1228225/21323359/f3b78066-c614-11e6-998a-28a77d0805a0.gif)
 
 **IMPORTANT: This extension is a work in progress.**
 
