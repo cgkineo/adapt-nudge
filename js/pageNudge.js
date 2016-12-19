@@ -8,6 +8,8 @@ define([
 		_overlayCount:0,
 		_indicateToUser:false,
 		_view:null,
+		_components:null,
+		_mode:'scroll',
 		_nudgeView:null,
 		_debug:true,
 
@@ -19,8 +21,16 @@ define([
 			this.onScroll = _.throttle(_.bind(this.onScroll, this), 500);
 		},
 
-		finish:function() {
+		finish:function(disableOnOtherPages) {
+			// disable on this page from now
 			Adapt.nudge.getConfig(this._view.model)._isEnabled = false;
+			if (disableOnOtherPages) {
+				// disable on all other pages unless explicitly enabled
+				Adapt.contentObjects.each(function(contentObject) {
+					var cfg = Adapt.nudge.getConfig(contentObject);
+					if (cfg._isEnabled !== true) cfg._isEnabled = false;
+				});
+			}
 			this._hideNudge();
 			this._removeEventListeners();
 		},
@@ -30,8 +40,9 @@ define([
 
 			this._view = view;
 			this._components = this._view.model.findDescendants('components');
+			this._mode = 'scroll';
 
-			if (!config._isEnabled) return;
+			if (config._isEnabled === false) return;
 
 			this.listenToOnce(Adapt, {
 				"pageView:postRender": this.onPostRender,
@@ -56,12 +67,15 @@ define([
 			this._addTimer();
 
 			this.listenTo(this._components, 'change:_isComplete', this.onComponentComplete);
+			this.listenTo(_.last(this._components.where({'_isOptional':false})), 'change:_isInteractionComplete', this.onLastComponentInteraction);
 
 			this.listenTo(Adapt, {
 				"notify:opened tutor:opened": this.onOverlay,
 				"notify:closed tutor:closed": this.onOverlayClosed,
 				'nudge:userGotIt':this.onUserGotIt
 			});
+
+			this.listenToOnce(Adapt, 'drawer:triggerCustomView', this.onDrawerTriggered);
 
 			$(window).on('scroll', this.onScroll);
 		},
@@ -81,7 +95,8 @@ define([
 				'pageView:postRender':this.onPostRender,
 				'notify:opened tutor:opened':this.onOverlay,
 				'notify:closed tutor:closed':this.onOverlayClosed,
-				'nudge:userGotIt':this.onUserGotIt
+				'nudge:userGotIt':this.onUserGotIt,
+				'drawer:triggerCustomView': this.onDrawerTriggered
 			});
 
 			$(window).off('scroll', this.onScroll);
@@ -123,27 +138,12 @@ define([
 			return ret;
 		},
 
-		logComponentVisibilityState:function(state) {
-			console.log('onscreen:', _.map(state.onscreen, function(s){return s.component.get('_id')}).join(','));
-			console.log('offscreen:', _.map(state.offscreen, function(s){return s.component.get('_id')}).join(','));
+		_setMode:function(mode) {
+			this._mode = mode;
+			this._nudgeView.setMode(mode);
 		},
 
-		onScroll:function() {
-			this._restartTimer();
-			this._hideNudge();
-		},
-
-		onOverlay: function() {
-			this._overlayCount++;
-			this._nudgeView.setVisible(false);
-		},
-
-		onOverlayClosed: function() {
-			this._overlayCount--;
-			this._nudgeView.setVisible(this._indicateToUser);
-		},
-
-		onTimer:function() {
+		_checkScrollNudge:function() {
 			// if page is completed then finish
 			if (this._view.model.get('_isComplete')) return this.finish();
 
@@ -163,12 +163,74 @@ define([
 			}
 		},
 
+		_checkPlpNudge:function() {
+			// if page is completed then finish
+			if (this._view.model.get('_isComplete')) return this.finish();
+
+			// determine if user has interacted with last component
+			var lastComponentInteracted = _.last(this._components.where({'_isOptional':false})).get('_isInteractionComplete');
+
+			if (lastComponentInteracted) {
+				this._showNudge();
+			}
+		},
+
+		logComponentVisibilityState:function(state) {
+			console.log('onscreen:', _.map(state.onscreen, function(s){return s.component.get('_id')}).join(','));
+			console.log('offscreen:', _.map(state.offscreen, function(s){return s.component.get('_id')}).join(','));
+		},
+
+		onScroll:function() {
+			if (this._mode == 'scroll') {
+				this._hideNudge();
+				this._restartTimer();
+			}
+		},
+
+		onOverlay: function() {
+			this._overlayCount++;
+			this._nudgeView.setVisible(false);
+		},
+
+		onOverlayClosed: function() {
+			this._overlayCount--;
+			this._nudgeView.setVisible(this._indicateToUser);
+		},
+
+		onTimer:function() {
+			switch (this._mode) {
+				case 'scroll': return this._checkScrollNudge();
+				case 'plp': return this._checkPlpNudge();
+			}
+		},
+
 		onComponentComplete:function() {
 			this._restartTimer();
 		},
 
+		onLastComponentInteraction:function() {
+			this._setMode('plp');
+		},
+
 		onUserGotIt:function() {
-			this.finish();
+			var globalPlpCfg = Adapt.nudge.getConfig()._pageLevelProgress;
+			var pagePlpCfg = Adapt.nudge.getConfig(this._view.model)._pageLevelProgress;
+			var plpModeDisabled = !globalPlpCfg._isEnabled || (pagePlpCfg && pagePlpCfg._isEnabled === false);
+			
+			if (plpModeDisabled || globalPlpCfg._hasBeenOpened || this._mode == 'plp') {
+				this.finish(true);
+			} else {
+				this._setMode('plp');
+				this._hideNudge();
+				this._restartTimer();
+			}
+		},
+
+		onDrawerTriggered:function(view) {
+			if (view && $(view).hasClass('page-level-progress')) {
+				Adapt.nudge.getConfig()._pageLevelProgress._hasBeenOpened = true;
+				if (this._mode == 'plp') this.finish(true);
+			}
 		}
 	}, Backbone.Events);
 

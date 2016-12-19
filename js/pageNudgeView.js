@@ -11,7 +11,9 @@ define([
         },
 
         initialize:function() {
-            this.state = {};
+            this.state = {
+                '_mode':'scroll'
+            };
 
             this.render();
             this.setVisible(false);
@@ -19,6 +21,7 @@ define([
 
         render:function() {
             this.$el.html(Handlebars.templates['pageNudge']());
+            this.$el.attr('data-mode', this.state._mode);
             return this;
         },
 
@@ -30,6 +33,11 @@ define([
             if (this.state._isVisible == visible) return;
             this.state._isVisible = visible;
             this.$el.toggleClass('display-none', !visible)
+        },
+
+        setMode:function(mode) {
+            this.state._mode = mode;
+            this.$el.attr('data-mode', this.state._mode);
         },
 
         onButtonClicked:function() {

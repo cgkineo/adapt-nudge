@@ -1,17 +1,53 @@
 .page-nudge {
-	.page-nudge-inner {
+	position:fixed;
+	z-index:1000;
+
+	&[data-mode='scroll'] {
+		.scroll-nudge {
+			display: block !important;
+		}
+	}
+
+	&[data-mode='plp'] {
+		.plp-nudge {
+			display: block !important;
+		}
+	}
+
+	button.got-it {
+		font-size:12px;
+		padding:2px;
+		margin-left:5px;
+	}
+
+	.scroll-nudge {
+
 		position: fixed;
 		bottom:0px;
 		right:0px;
 		width:206px;
 		height:26px;
 		padding:4px 8px;
-		background-color: @item-color;
+		background-color: orange;
+	}
 
-		button {
-			font-size:12px;
-			padding:2px;
-			margin-left:5px;
+	.plp-nudge {
+		position: fixed;
+		top:40px;
+		right:0px;
+
+		.triangle {
+			width: 0;
+			height: 0;
+			border-style: solid;
+			border-width: 0 10px 24px 10px;
+			border-color: transparent transparent orange transparent;
+			margin-left:120px;
+		}
+
+		.plp-nudge-content {
+			padding:4px 8px;
+			background-color: orange;
 		}
 	}
 }

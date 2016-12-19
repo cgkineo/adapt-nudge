@@ -16,6 +16,9 @@ define([
                     'text'
                 ]
             },
+            '_pageLevelProgress': {
+                '_isEnabled':true
+            },
             '_visibilityThreshold':33,
             "_wait":5000,
         },
@@ -27,7 +30,7 @@ define([
         setup:function() {
             var courseConfig = this.getConfig();
 
-            _.extend({}, this.defaults, courseConfig);
+            _.extend(courseConfig, this.defaults, courseConfig);
 
             if (courseConfig._nonInteractiveComponents._autoAssign) {
                 Adapt.components.each(function(c) {
@@ -47,7 +50,7 @@ define([
         getConfig: function(model) {
             if (!model) model = Adapt.course;
             if (!model.has('_nudge')) {
-                model.set('_nudge', {'_isEnabled':true});
+                model.set('_nudge', {});
             }
             return model.get("_nudge");
         },
