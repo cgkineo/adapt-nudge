@@ -11,7 +11,6 @@ define([
 		_components:null,
 		_mode:'scroll',
 		_nudgeView:null,
-		_debug:true,
 
 		initialize: function() {
 			this.listenTo(Adapt, {
@@ -21,40 +20,40 @@ define([
 			this.onScroll = _.throttle(_.bind(this.onScroll, this), 500);
 		},
 
-		finish:function(disableOnOtherPages) {
+		finish:function() {
+			var cfg = Adapt.nudge.getConfig(this._view.model);
 			// disable on this page from now
-			Adapt.nudge.getConfig(this._view.model)._isEnabled = false;
-			if (disableOnOtherPages) {
-				// disable on all other pages unless explicitly enabled
-				Adapt.contentObjects.each(function(contentObject) {
-					var cfg = Adapt.nudge.getConfig(contentObject);
-					if (cfg._isEnabled !== true) cfg._isEnabled = false;
-				});
-			}
+			cfg._isScrollEnabled = cfg._isPlpEnabled = false;
+
 			this._hideNudge();
 			this._removeEventListeners();
 		},
 
 		onPreRender:function(view) {
-			var config = Adapt.nudge.getConfig(view.model);
+			var courseConfig = Adapt.nudge.getConfig();
+			var pageConfig = Adapt.nudge.getConfig(view.model);
+			var showScrollNudge = courseConfig._isScrollEnabled && pageConfig._isScrollEnabled && !courseConfig._hasUserGotScroll;
+			var showPlpNudge = courseConfig._isPlpEnabled && pageConfig._isPlpEnabled && !courseConfig._hasUserGotPlp && !courseConfig._hasPlpBeenOpened;
+
+			if (!showScrollNudge && !showPlpNudge) return;
 
 			this._view = view;
 			this._components = this._view.model.findDescendants('components');
-			this._mode = 'scroll';
-
-			if (config._isEnabled === false) return;
+			this._overlayCount = 0;
+			this._indicateToUser = false;
 
 			this.listenToOnce(Adapt, {
 				"pageView:postRender": this.onPostRender,
 				"preRemove": this.onPreRemove,
 			});
+
+			this._nudgeView = new PageNudgeView();
+			$('#wrapper').append(this._nudgeView.$el);
+
+			this._setMode(showScrollNudge ? 'scroll' : 'plp');
 		},
 
 		onPostRender: function(view) {
-			this._nudgeView = new PageNudgeView();
-
-			$('#wrapper').append(this._nudgeView.$el);
-
 			this._addEventListeners();
 		},
 
@@ -70,12 +69,14 @@ define([
 			this.listenTo(_.last(this._components.where({'_isOptional':false})), 'change:_isInteractionComplete', this.onLastComponentInteraction);
 
 			this.listenTo(Adapt, {
-				"notify:opened tutor:opened": this.onOverlay,
-				"notify:closed tutor:closed": this.onOverlayClosed,
-				'nudge:userGotIt':this.onUserGotIt
+				"notify:opened": this.onNotifyOpened,
+				"notify:closed": this.onNotifyClosed,
+				'nudge:userGotIt':this.onUserGotIt,
+				'nudge:trickleButtonOn':this.onTrickleButtonOn,
+				'nudge:trickleButtonOff':this.onTrickleButtonOff,
+				'drawer:triggerCustomView':this.onDrawerTriggered,
+				'drawer:closed':this.onDrawerClosed
 			});
-
-			this.listenToOnce(Adapt, 'drawer:triggerCustomView', this.onDrawerTriggered);
 
 			$(window).on('scroll', this.onScroll);
 		},
@@ -93,10 +94,13 @@ define([
 
 			this.stopListening(Adapt, {
 				'pageView:postRender':this.onPostRender,
-				'notify:opened tutor:opened':this.onOverlay,
-				'notify:closed tutor:closed':this.onOverlayClosed,
+				'notify:opened':this.onNotifyOpened,
+				'notify:closed':this.onNotifyClosed,
 				'nudge:userGotIt':this.onUserGotIt,
-				'drawer:triggerCustomView': this.onDrawerTriggered
+				'nudge:trickleButtonOn':this.onTrickleButtonOn,
+				'nudge:trickleButtonOff':this.onTrickleButtonOff,
+				'drawer:triggerCustomView':this.onDrawerTriggered,
+				'drawer:closed':this.onDrawerClosed
 			});
 
 			$(window).off('scroll', this.onScroll);
@@ -134,7 +138,7 @@ define([
 				}
 			});
 			var ret = {'onscreen':onscreen, 'offscreen':offscreen};
-			if (this._debug) this.logComponentVisibilityState(ret);
+			
 			return ret;
 		},
 
@@ -187,20 +191,26 @@ define([
 			}
 		},
 
-		onOverlay: function() {
+		onNotifyOpened: function() {
 			this._overlayCount++;
 			this._nudgeView.setVisible(false);
 		},
 
-		onOverlayClosed: function() {
+		onNotifyClosed: function() {
 			this._overlayCount--;
-			this._nudgeView.setVisible(this._indicateToUser);
+			if (this._indicateToUser) {
+				this._nudgeView.setVisible(this._overlayCount == 0);
+			} else {
+				this._restartTimer();
+			}
 		},
 
 		onTimer:function() {
-			switch (this._mode) {
-				case 'scroll': return this._checkScrollNudge();
-				case 'plp': return this._checkPlpNudge();
+			if (this._overlayCount == 0) {
+				switch (this._mode) {
+					case 'scroll': return this._checkScrollNudge();
+					case 'plp': return this._checkPlpNudge();
+				}
 			}
 		},
 
@@ -209,16 +219,30 @@ define([
 		},
 
 		onLastComponentInteraction:function() {
-			this._setMode('plp');
+			var courseConfig = Adapt.nudge.getConfig();
+			var pageConfig = Adapt.nudge.getConfig(this._view.model);
+			var plpModeDisabled = !courseConfig._isPlpEnabled || !pageConfig._isPlpEnabled;
+
+			if (plpModeDisabled || courseConfig._hasUserGotPlp || courseConfig._hasPlpBeenOpened || this._mode == 'plp') {
+				this.finish();
+			} else {
+				this._setMode('plp');
+				this._hideNudge();
+			}
 		},
 
-		onUserGotIt:function() {
-			var globalPlpCfg = Adapt.nudge.getConfig()._pageLevelProgress;
-			var pagePlpCfg = Adapt.nudge.getConfig(this._view.model)._pageLevelProgress;
-			var plpModeDisabled = !globalPlpCfg._isEnabled || (pagePlpCfg && pagePlpCfg._isEnabled === false);
+		onUserGotIt:function(nudgeView) {
+			if (nudgeView != this._nudgeView) return;
+
+			var courseConfig = Adapt.nudge.getConfig();
+			var pageConfig = Adapt.nudge.getConfig(this._view.model);
+			var plpModeDisabled = !courseConfig._isPlpEnabled || !pageConfig._isPlpEnabled;
+
+			if (this._mode == 'scroll') courseConfig._hasUserGotScroll = true;
+			else if (this._mode == 'plp') courseConfig._hasUserGotPlp = true;
 			
-			if (plpModeDisabled || globalPlpCfg._hasBeenOpened || this._mode == 'plp') {
-				this.finish(true);
+			if (plpModeDisabled || courseConfig._hasUserGotPlp || courseConfig._hasPlpBeenOpened || this._mode == 'plp') {
+				this.finish();
 			} else {
 				this._setMode('plp');
 				this._hideNudge();
@@ -226,10 +250,36 @@ define([
 			}
 		},
 
+		onTrickleButtonOn:function() {
+			if (Adapt.nudge.debug) console.log('onTrickleButtonOn');
+			this._overlayCount++;
+			this._nudgeView.setVisible(false);
+		},
+
+		onTrickleButtonOff:function() {
+			if (Adapt.nudge.debug) console.log('onTrickleButtonOff');
+			this._overlayCount--;
+			this._restartTimer();
+		},
+
 		onDrawerTriggered:function(view) {
+			if (Adapt.nudge.debug) console.log('onDrawerTriggered');
+			this._overlayCount++;
+			this._nudgeView.setVisible(false);
+
 			if (view && $(view).hasClass('page-level-progress')) {
-				Adapt.nudge.getConfig()._pageLevelProgress._hasBeenOpened = true;
-				if (this._mode == 'plp') this.finish(true);
+				Adapt.nudge.getConfig()._hasPlpBeenOpened = true;
+				if (this._mode == 'plp') this.finish();
+			}
+		},
+
+		onDrawerClosed:function() {
+			if (Adapt.nudge.debug) console.log('onDrawerClosed');
+			this._overlayCount--;
+			if (this._indicateToUser) {
+				this._nudgeView.setVisible(this._overlayCount == 0);
+			} else {
+				this._restartTimer();
 			}
 		}
 	}, Backbone.Events);
@@ -237,7 +287,7 @@ define([
 	Adapt.on("adapt:start", function() {
 		if (Adapt.nudge.isEnabled()) {
 			PageNudge.initialize();
-			window.pn = PageNudge;
+			if (Adapt.nudge.debug) window.pn = PageNudge;
 		}
 	});
 });

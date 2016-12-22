@@ -1,0 +1,34 @@
+// course.json
+
+"nudge": {
+    "_isEnabled":true,
+    "_nonInteractiveComponents": {
+        "_autoAssign": true,
+        "_components": [
+            "assessmentResults",
+            "blank",
+            "graphic",
+            "text"
+        ]
+    },
+    "_isScrollEnabled": true,
+    "_isPlpEnabled": true,
+    "_isTrickleEnabled": true,
+    "_visibilityThreshold":33,
+    "_wait":5000
+},
+
+// contentObjects.json
+
+"nudge": {
+    "_isScrollEnabled": true,
+    "_isPlpEnabled": true,
+    "_isTrickleEnabled": true,
+    "_wait":5000
+}
+
+// components.json
+
+"nudge": {
+    "_visibilityThreshold":33
+}

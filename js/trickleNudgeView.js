@@ -2,9 +2,9 @@ define([
     'coreJS/adapt'
 ], function(Adapt) {
 
-    var PageNudgeView = Backbone.View.extend({
+    var TrickleNudgeView = Backbone.View.extend({
 
-        className:"page-nudge",
+        className:"trickle-nudge",
 
         events: {
             'click button':'onButtonClicked'
@@ -13,7 +13,7 @@ define([
         initialize:function() {
             this.state = {
                 '_isVisible':null,
-                '_mode':'scroll'
+                '_$trickleComponent':null
             };
 
             this.render();
@@ -21,8 +21,7 @@ define([
         },
 
         render:function() {
-            this.$el.html(Handlebars.templates['pageNudge']());
-            this.$el.attr('data-mode', this.state._mode);
+            this.$el.html(Handlebars.templates['trickleNudge']());
             return this;
         },
 
@@ -30,15 +29,19 @@ define([
             this.$el.remove();
         },
 
-        setVisible: function(visible) {
-            if (this.state._isVisible == visible) return;
-            this.state._isVisible = visible;
-            this.$el.toggleClass('display-none', !visible)
+        setTarget:function($trickleComponent) {
+            this.state._$trickleComponent = $trickleComponent;
         },
 
-        setMode:function(mode) {
-            this.state._mode = mode;
-            this.$el.attr('data-mode', this.state._mode);
+        setVisible: function(visible) {
+            if (this.state._isVisible == visible) return;
+
+            this.state._isVisible = visible;
+            this.$el.toggleClass('display-none', !visible)
+            
+            if (visible) {
+                this.$el.css('bottom', $('.trickle-button-inner', this.state._$trickleComponent).outerHeight());
+            }
         },
 
         onButtonClicked:function() {
@@ -46,5 +49,5 @@ define([
         }
     });
 
-    return PageNudgeView;
+    return TrickleNudgeView;
 });

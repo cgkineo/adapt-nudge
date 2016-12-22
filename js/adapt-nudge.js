@@ -1,11 +1,13 @@
 define([
     'coreJS/adapt',
-    './pageNudge'
-], function(Adapt) {
+    'coreModels/componentModel',
+    './pageNudge',
+    './trickleNudge'
+], function(Adapt, ComponentModel) {
 
     Adapt.nudge = _.extend({
 
-        defaults: {
+        courseDefaults: {
             '_isEnabled':true,
             '_nonInteractiveComponents': {
                 '_autoAssign': true,
@@ -16,12 +18,25 @@ define([
                     'text'
                 ]
             },
-            '_pageLevelProgress': {
-                '_isEnabled':true
-            },
+            '_isScrollEnabled': true,
+            '_isPlpEnabled': true,
+            '_isTrickleEnabled': true,
             '_visibilityThreshold':33,
-            "_wait":5000,
+            '_wait':5000
         },
+
+        pageDefaults: {
+            '_isScrollEnabled': true,
+            '_isPlpEnabled': true,
+            '_isTrickleEnabled': true,
+            '_wait':5000
+        },
+
+        componentDefaults: {
+            '_visibilityThreshold':33
+        },
+
+        debug:true,
 
         initialize: function() {
             this.listenToOnce(Adapt, 'app:dataReady', this.setup);
@@ -29,8 +44,6 @@ define([
 
         setup:function() {
             var courseConfig = this.getConfig();
-
-            _.extend(courseConfig, this.defaults, courseConfig);
 
             if (courseConfig._nonInteractiveComponents._autoAssign) {
                 Adapt.components.each(function(c) {
@@ -47,13 +60,29 @@ define([
             return config && config._isEnabled;
         },
 
-        getConfig: function(model) {
-            if (!model) model = Adapt.course;
-            if (!model.has('_nudge')) {
-                model.set('_nudge', {});
-            }
-            return model.get("_nudge");
+        getDefaults:function(model) {
+            if (model == Adapt.course) return this.courseDefaults;
+            if (model instanceof ComponentModel) return this.componentDefaults;
+            return this.pageDefaults;
         },
+
+        getConfig:function(model) {
+            if (!model) model = Adapt.course;
+            if (model.get('_isNudgeConfigured')) return model.get('_nudge');
+
+            var defaults = this.getDefaults(model);
+            var cfg = model.get('_nudge');
+
+            if (!cfg) {
+                model.set('_nudge', _.extend({}, defaults));
+            } else {
+                _.extend(cfg, defaults, cfg);
+            }
+
+            model.set('_isNudgeConfigured', true);
+
+            return model.get('_nudge');
+        }
     }, Backbone.Events);
 
     Adapt.once('courseModel:dataLoaded', function() {
