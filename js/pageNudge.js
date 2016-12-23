@@ -223,6 +223,9 @@ define([
 			var pageConfig = Adapt.nudge.getConfig(this._view.model);
 			var plpModeDisabled = !courseConfig._isPlpEnabled || !pageConfig._isPlpEnabled;
 
+			// by interacting with the last component the user has demonstrated awareness of page length
+			pageConfig._isScrollEnabled = false;
+
 			if (plpModeDisabled || courseConfig._hasUserGotPlp || courseConfig._hasPlpBeenOpened || this._mode == 'plp') {
 				this.finish();
 			} else {

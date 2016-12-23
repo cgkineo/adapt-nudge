@@ -33,7 +33,13 @@ define([
         setVisible: function(visible) {
             if (this.state._isVisible == visible) return;
             this.state._isVisible = visible;
-            this.$el.toggleClass('display-none', !visible)
+            this.$el.toggleClass('display-none', !visible);
+
+            if (visible && this.state._mode == 'plp') {
+                var $plp = $('.page-level-progress-navigation');
+                var margin = ($plp.position().left - this.$('.plp-nudge').position().left) + $plp.outerWidth()/2;
+                this.$('.plp-nudge .triangle').css('margin-left', margin - this.$('.plp-nudge .triangle').outerWidth()/2);
+            }
         },
 
         setMode:function(mode) {

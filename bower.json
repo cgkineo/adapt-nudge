@@ -2,7 +2,7 @@
   "name": "adapt-nudge",
   "version": "2.0.0",
   "framework": "^2.0.0",
-  "homepage": "https://github.com/cgkineo/adapt-nudge",
+  "homepage": "https://github.com/chris-steele/adapt-nudge",
   "displayName" : "Nudge",
   "extension" : "nudge",
   "description": "An extension to help users become familiar with the interface of an Adapt course.",
