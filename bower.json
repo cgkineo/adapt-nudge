@@ -1,9 +1,10 @@
 {
     "name": "adapt-nudge",
-    "repository": "https://github.com/chris-steele/adapt-nudge",
+    "repository": "git://github.com/chris-steele/adapt-nudge",
     "framework": "^2.0.0",
-    "version": "2.0.2",
+    "version": "2.0.0",
     "homepage": "https://github.com/chris-steele/adapt-nudge",
+    "issues": "https://github.com/chris-steele/adapt-nudge/issues/",
     "displayName": "Nudge",
     "extension": "nudge",
     "description": "An extension to help users become familiar with the interface of an Adapt course.",
