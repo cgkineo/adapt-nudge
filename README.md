@@ -10,8 +10,8 @@ The goal of the Nudge extension is to help users become familiar with the interf
 
 To help users become familiar with the interface Nudge provides reminders, such as:
 - when to scroll, if there is incomplete content on a page
-- if there is trickled content yet to be accessed
-- the function of the page-level progress extension.
+- if there is trickled content yet to be accessed (see [adapt-contrib-trickle](https://github.com/adaptlearning/adapt-contrib-trickle))
+- the function of the page-level progress extension (see [adapt-contrib-pageLevelProgress](https://github.com/adaptlearning/adapt-contrib-pageLevelProgress)).
 
 In some ways, Nudge is trying to interpret user behaviour and preempt things like:
 - confusion regarding how to navigate
@@ -62,7 +62,7 @@ When the extension is installed without configuration it is enabled by default. 
 
 >**_isTrickleEnabled** (boolean): Turns on and off trickle nudges for all pages. Default value is `true`.
 
->**_isTrackingEnabled** (boolean): Determines whether the extension records where nudges are no longer required. For example, if the user has used page-level progress (or clicked 'Got it') then the plp nudge will not be shown again. Default value is `true`.
+>**_isTrackingEnabled** (boolean): Determines whether the extension records where nudges are no longer required. For example, if the user has used page-level progress (or clicked 'Got it') then the plp nudge will not be shown again. Requires [adapt-contrib-spoor](https://github.com/adaptlearning/adapt-contrib-spoor). Default value is `true`.
 
 >**_visibilityThreshold** (number): The percentage of a component's area that is considered to make a component sufficiently apparent to the user. Default value is `33`.
 
@@ -91,4 +91,5 @@ As expected, these settings affect only the page to which they are attached.
 # See also
 
 - [adapt-contrib-pageLevelProgress](https://github.com/adaptlearning/adapt-contrib-pageLevelProgress)
+- [adapt-contrib-spoor](https://github.com/adaptlearning/adapt-contrib-spoor)
 - [adapt-contrib-trickle](https://github.com/adaptlearning/adapt-contrib-trickle)
