@@ -14,6 +14,7 @@
     "_isScrollEnabled": true,
     "_isPlpEnabled": true,
     "_isTrickleEnabled": true,
+    "_isTrackingEnabled":true,
     "_visibilityThreshold":33,
     "_wait":5000
 },

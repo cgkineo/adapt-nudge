@@ -48,23 +48,25 @@ When the extension is installed without configuration it is enabled by default. 
 
 **_nudge** (object): The Nudge attribute group contains values for **_isEnabled**, **_nonInteractiveComponents**, **_isScrollEnabled**, **_isPlpEnabled**, **_isTrickleEnabled**, **_visibilityThreshold** and **_wait**.
 
->**_isEnabled** (boolean): Turns on and off the **Nudge** extension.
+>**_isEnabled** (boolean): Turns on and off the **Nudge** extension. Default value is `true`.
 
 >**_nonInteractiveComponents** (object): Used to describe which types of components do not need direct interaction by the user and which rely on being seen (in full) by the user to be considered complete. This attribute group contains values for **_autoAssign** and **_components**.
 
->>**_autoAssign** (boolean): If set to `true`, the extension will set the property **_isNonInteractive** to `true` on all component types listed in **_components**.
+>>**_autoAssign** (boolean): If set to `true`, the extension will set the property **_isNonInteractive** to `true` on all component types listed in **_components**. Default value is `true`.
 
 >>**_components** (array): The component types considered non-interactive.
 
->**_isScrollEnabled** (boolean): Turns on and off scroll nudges for all pages.
+>**_isScrollEnabled** (boolean): Turns on and off scroll nudges for all pages. Default value is `true`.
 
->**_isPlpEnabled** (boolean): Turns on and off page-level progress nudges for all pages.
+>**_isPlpEnabled** (boolean): Turns on and off page-level progress nudges for all pages. Default value is `true`.
 
->**_isTrickleEnabled** (boolean): Turns on and off trickle nudges for all pages.
+>**_isTrickleEnabled** (boolean): Turns on and off trickle nudges for all pages. Default value is `true`.
 
->**_visibilityThreshold** (boolean): The percentage of a component's area that is considered to make a component sufficiently apparent to the user.
+>**_isTrackingEnabled** (boolean): Determines whether the extension records where nudges are no longer required. For example, if the user has used page-level progress (or clicked 'Got it') then the plp nudge will not be shown again. Default value is `true`.
 
->**_wait** (number): The minimum number of milliseconds between each nudge.
+>**_visibilityThreshold** (number): The percentage of a component's area that is considered to make a component sufficiently apparent to the user. Default value is `33`.
+
+>**_wait** (number): The minimum number of milliseconds between each nudge. Default value is `5000`.
 
 ## Page level configuration
 
@@ -72,19 +74,19 @@ As expected, these settings affect only the page to which they are attached.
 
 **_nudge** (object): The Nudge attribute group contains values for **_isScrollEnabled**, **_isPlpEnabled**, **_isTrickleEnabled** and **_wait**.
 
->**_isScrollEnabled** (boolean): Turns on and off scroll nudges.
+>**_isScrollEnabled** (boolean): Turns on and off scroll nudges. Default value is `true`.
 
->**_isPlpEnabled** (boolean): Turns on and off page-level progress nudges.
+>**_isPlpEnabled** (boolean): Turns on and off page-level progress nudges. Default value is `true`.
 
->**_isTrickleEnabled** (boolean): Turns on and off trickle nudges.
+>**_isTrickleEnabled** (boolean): Turns on and off trickle nudges. Default value is `true`.
 
->**_wait** (number): The minimum number of milliseconds between each nudge.
+>**_wait** (number): The minimum number of milliseconds between each nudge. Default value is `5000`.
 
 ## Component level configuration
 
 **_nudge** (object): The Nudge attribute group contains values for **_visibilityThreshold**.
 
->**_visibilityThreshold** (boolean): The percentage of a component's area that is considered to make a component sufficiently apparent to the user.
+>**_visibilityThreshold** (number): The percentage of a component's area that is considered to make a component sufficiently apparent to the user. Default value is `33`.
 
 # See also
 

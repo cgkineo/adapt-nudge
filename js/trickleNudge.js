@@ -178,6 +178,8 @@ define([
 
 			courseConfig._hasUserGotTrickle = true;
 
+			Adapt.nudge.saveState();
+
 			this.finish();
 		},
 

@@ -25,6 +25,8 @@ define([
 			// disable on this page from now
 			cfg._isScrollEnabled = cfg._isPlpEnabled = false;
 
+			Adapt.nudge.saveState();
+
 			this._hideNudge();
 			this._removeEventListeners();
 		},
@@ -226,6 +228,8 @@ define([
 			// by interacting with the last component the user has demonstrated awareness of page length
 			pageConfig._isScrollEnabled = false;
 
+			Adapt.nudge.saveState();
+
 			if (plpModeDisabled || courseConfig._hasUserGotPlp || courseConfig._hasPlpBeenOpened || this._mode == 'plp') {
 				this.finish();
 			} else {
@@ -243,6 +247,8 @@ define([
 
 			if (this._mode == 'scroll') courseConfig._hasUserGotScroll = true;
 			else if (this._mode == 'plp') courseConfig._hasUserGotPlp = true;
+
+			Adapt.nudge.saveState();
 			
 			if (plpModeDisabled || courseConfig._hasUserGotPlp || courseConfig._hasPlpBeenOpened || this._mode == 'plp') {
 				this.finish();
