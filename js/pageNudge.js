@@ -230,7 +230,7 @@ define([
 
 			Adapt.nudge.saveState();
 
-			if (plpModeDisabled || courseConfig._hasUserGotPlp || courseConfig._hasPlpBeenOpened || this._mode == 'plp') {
+			if (plpModeDisabled || courseConfig._hasUserGotPlp || courseConfig._hasPlpBeenOpened) {
 				this.finish();
 			} else {
 				this._setMode('plp');
