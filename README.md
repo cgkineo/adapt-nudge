@@ -49,7 +49,7 @@ When the extension is installed without configuration it is enabled by default. 
 
 ## Course level configuration
 
-**_nudge** (object): The Nudge attribute group contains values for **_isEnabled**, **_nonInteractiveComponents**, **_isScrollEnabled**, **_isPlpEnabled**, **_isTrickleEnabled**, **_visibilityThreshold** and **_wait**.
+**_nudge** (object): The Nudge attribute group contains values for **_isEnabled**, **_nonInteractiveComponents**, **_isScrollEnabled**, **_isPlpEnabled**, **_isTrickleEnabled**, **_isPageCompletionEnabled**, **_isTrackingEnabled**, **_visibilityThreshold** and **_wait**.
 
 >**_isEnabled** (boolean): Turns on and off the **Nudge** extension. Default value is `true`.
 
@@ -77,7 +77,7 @@ When the extension is installed without configuration it is enabled by default. 
 
 As expected, these settings affect only the page to which they are attached.
 
-**_nudge** (object): The Nudge attribute group contains values for **_isScrollEnabled**, **_isPlpEnabled**, **_isTrickleEnabled** and **_wait**.
+**_nudge** (object): The Nudge attribute group contains values for **_isScrollEnabled**, **_isPlpEnabled**, **_isTrickleEnabled**, **_isPageCompletionEnabled** and **_wait**.
 
 >**_isScrollEnabled** (boolean): Turns on and off scroll nudges. Default value is `true`.
 

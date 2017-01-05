@@ -115,13 +115,16 @@ define([
             cfg._hasUserGotScroll = data[i++];
             cfg._hasUserGotPlp = data[i++];
             cfg._hasUserGotTrickle = data[i++];
+            cfg._hasUserGotPageCompletion = data[i++];
             cfg._hasPlpBeenOpened = data[i++];
+            cfg._hasBackButtonBeenClicked = data[i++];
 
             Adapt.contentObjects.each(function(co) {
                 cfg = this.getConfig(co);
                 cfg._isScrollEnabled = data[i++];
                 cfg._isPlpEnabled = data[i++];
                 cfg._isTrickleEnabled = data[i++];
+                cfg._isPageCompletionEnabled = data[i++];
             }, this);
         },
 
@@ -141,11 +144,11 @@ define([
             var cfg = this.getConfig();
             var data = [];
 
-            data.push(cfg._hasUserGotScroll, cfg._hasUserGotPlp, cfg._hasUserGotTrickle, cfg._hasPlpBeenOpened);
+            data.push(cfg._hasUserGotScroll, cfg._hasUserGotPlp, cfg._hasUserGotTrickle, cfg._hasUserGotPageCompletion, cfg._hasPlpBeenOpened, cfg._hasBackButtonBeenClicked);
 
             Adapt.contentObjects.each(function(co) {
                 cfg = this.getConfig(co);
-                data.push(cfg._isScrollEnabled, cfg._isPlpEnabled, cfg._isTrickleEnabled);
+                data.push(cfg._isScrollEnabled, cfg._isPlpEnabled, cfg._isTrickleEnabled, cfg._isPageCompletionEnabled);
             }, this);
             
             return data;
