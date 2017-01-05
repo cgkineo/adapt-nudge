@@ -22,10 +22,13 @@ define([
             '_isPlpEnabled': true,
             '_isTrickleEnabled': true,
             '_isTrackingEnabled':true,
+            '_isPageCompletionEnabled':true,
             '_hasUserGotScroll':false,
             '_hasUserGotPlp':false,
             '_hasUserGotTrickle':false,
+            '_hasUserGotPageCompletion':false,
             '_hasPlpBeenOpened':false,
+            '_hasBackButtonBeenClicked':false,
             '_visibilityThreshold':33,
             '_wait':5000
         },
@@ -34,6 +37,7 @@ define([
             '_isScrollEnabled': true,
             '_isPlpEnabled': true,
             '_isTrickleEnabled': true,
+            '_isPageCompletionEnabled':true,
             '_wait':5000
         },
 
@@ -61,6 +65,7 @@ define([
             }
 
             this.restoreState();
+            this.addListeners();
         },
 
         isEnabled: function() {
@@ -81,13 +86,10 @@ define([
             var defaults = this.getDefaults(model);
             var cfg = model.get('_nudge');
 
-            if (!cfg) {
-                model.set('_nudge', _.extend({}, defaults));
-            } else {
-                _.extend(cfg, defaults, cfg);
-            }
-
-            model.set('_isNudgeConfigured', true);
+            model.set({
+                '_nudge':_.extend({}, defaults, cfg),
+                '_isNudgeConfigured':true
+            });
 
             return model.get('_nudge');
         },
@@ -131,6 +133,10 @@ define([
             }
         },
 
+        addListeners:function() {
+            this.listenToOnce(Adapt, 'navigation:backButton', this.onNavigationBackButtonClicked);
+        },
+
         _getData:function() {
             var cfg = this.getConfig();
             var data = [];
@@ -143,6 +149,11 @@ define([
             }, this);
             
             return data;
+        },
+
+        onNavigationBackButtonClicked:function() {
+            this.getConfig()._hasBackButtonBeenClicked = true;
+            this.saveState();
         }
     }, Backbone.Events);
 

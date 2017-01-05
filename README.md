@@ -2,7 +2,7 @@
 
 The goal of the Nudge extension is to help users become familiar with the interface of an Adapt course.
 
-![](https://cloud.githubusercontent.com/assets/1228225/21434586/409796a0-c86d-11e6-8291-aee772e83a46.gif)
+![](https://cloud.githubusercontent.com/assets/1228225/21685039/f0b2c31c-d357-11e6-850e-5c7d8b891ecd.gif)
 
 **IMPORTANT: This extension is a work in progress.**
 
@@ -11,7 +11,8 @@ The goal of the Nudge extension is to help users become familiar with the interf
 To help users become familiar with the interface Nudge provides reminders, such as:
 - when to scroll, if there is incomplete content on a page
 - if there is trickled content yet to be accessed (see [adapt-contrib-trickle](https://github.com/adaptlearning/adapt-contrib-trickle))
-- the function of the page-level progress extension (see [adapt-contrib-pageLevelProgress](https://github.com/adaptlearning/adapt-contrib-pageLevelProgress)).
+- the function of the page-level progress extension (see [adapt-contrib-pageLevelProgress](https://github.com/adaptlearning/adapt-contrib-pageLevelProgress))
+- how to navigate back to the menu when the page is complete.
 
 In some ways, Nudge is trying to interpret user behaviour and preempt things like:
 - confusion regarding how to navigate
@@ -38,6 +39,8 @@ The user can dimiss the plp reminder by clicking 'Got it' or opening page-level 
 
 In addition to drawing user attention to page-level progress and prompting the user to scroll, the extension also helps users become familiar with trickle. After a period of inactivity, if the trickle button is visible then the user will receive a nudge. Clicking 'Got it' will dismiss the trickle nudge and it will not show again.
 
+Once the page is completed Nudge changes to the 'complete' mode. After a period of inactivity the extension will draw the user's attention to the navigation back button by annotating it with a nudge. The user can dimiss the back button reminder by clicking 'Got it' and the nudge will not show again.
+
 N.B. completing a component signifies that the user is actively engaging with the learning and therefore resets the timer. Naturally, when the user scrolls through the content this action also resets the timer.
 
 # Configuration
@@ -62,6 +65,8 @@ When the extension is installed without configuration it is enabled by default. 
 
 >**_isTrickleEnabled** (boolean): Turns on and off trickle nudges for all pages. Default value is `true`.
 
+>**_isPageCompletionEnabled** (boolean): Turns on and off the page completion/back button nudge for all pages. Default value is `true`.
+
 >**_isTrackingEnabled** (boolean): Determines whether the extension records where nudges are no longer required. For example, if the user has used page-level progress (or clicked 'Got it') then the plp nudge will not be shown again. Requires [adapt-contrib-spoor](https://github.com/adaptlearning/adapt-contrib-spoor). Default value is `true`.
 
 >**_visibilityThreshold** (number): The percentage of a component's area that is considered to make a component sufficiently apparent to the user. Default value is `33`.
@@ -79,6 +84,8 @@ As expected, these settings affect only the page to which they are attached.
 >**_isPlpEnabled** (boolean): Turns on and off page-level progress nudges. Default value is `true`.
 
 >**_isTrickleEnabled** (boolean): Turns on and off trickle nudges. Default value is `true`.
+
+>**_isPageCompletionEnabled** (boolean): Turns on and off the page completion/back button nudge. Default value is `true`.
 
 >**_wait** (number): The minimum number of milliseconds between each nudge. Default value is `5000`.
 
