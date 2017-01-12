@@ -73,6 +73,20 @@ When the extension is installed without configuration it is enabled by default. 
 
 >**_wait** (number): The minimum number of milliseconds between each nudge. Default value is `5000`.
 
+### Configuration of labels
+
+The labels that appear in each of the nudges must be configured. Again at the course level, add a `_nudge` object under `_globals._extensions` using the following format:
+
+**_nudge** (object): The Nudge attribute group contains values for **scroll**, **plp**, **trickle** and **complete**.
+
+>**scroll** (string): The label to apply to the scroll nudge.
+
+>**plp** (string): The label to apply to the scroll nudge.
+
+>**trickle** (string): The label to apply to the scroll nudge.
+
+>**complete** (string): The label to apply to the scroll nudge.
+
 ## Page level configuration
 
 As expected, these settings affect only the page to which they are attached.

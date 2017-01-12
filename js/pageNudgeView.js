@@ -21,7 +21,10 @@ define([
         },
 
         render:function() {
-            this.$el.html(Handlebars.templates['pageNudge']());
+            var data = {
+                _globals: Adapt.course.get('_globals')
+            };
+            this.$el.html(Handlebars.templates['pageNudge'](data));
             this.$el.attr('data-mode', this.state._mode);
             return this;
         },

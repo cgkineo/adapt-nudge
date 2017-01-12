@@ -1,11 +1,34 @@
 <div class="page-nudge-inner">
-	<div class="scroll-nudge display-none">Scroll down when ready <button class="got-it">GOT IT</button></div>
+	<div class="scroll-nudge display-none">
+		<div class="scroll-nudge-content nudge-content">
+			{{#if _globals._extensions._nudge.scroll}}
+				{{_globals._extensions._nudge.scroll}}
+			{{else}}
+				[Label not set (see README)]
+			{{/if}}
+			<button class="base close-nudge icon icon-cross"></button>
+		</div> 
+	</div>
 	<div class="plp-nudge display-none">
 		<div class="triangle"/>
-		<div class="plp-nudge-content">Click here to view your progress <button class="got-it">GOT IT</button></div>
+		<div class="plp-nudge-content nudge-content">
+			{{#if _globals._extensions._nudge.plp}}
+				{{_globals._extensions._nudge.plp}}
+			{{else}}
+				[Label not set (see README)]
+			{{/if}}
+			<button class="base close-nudge icon icon-cross"></button>
+		</div>
 	</div>
 	<div class="complete-nudge display-none">
 		<div class="triangle"/>
-		<div class="complete-nudge-content">Click here to return to the menu <button class="got-it">GOT IT</button></div>
+		<div class="complete-nudge-content nudge-content">
+			{{#if _globals._extensions._nudge.complete}}
+				{{_globals._extensions._nudge.complete}}
+			{{else}}
+				[Label not set (see README)]
+			{{/if}}
+			<button class="base close-nudge icon icon-cross"></button>
+		</div>
 	</div>
 </div>

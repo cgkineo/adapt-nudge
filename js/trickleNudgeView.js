@@ -21,7 +21,10 @@ define([
         },
 
         render:function() {
-            this.$el.html(Handlebars.templates['trickleNudge']());
+            var data = {
+                _globals: Adapt.course.get('_globals')
+            };
+            this.$el.html(Handlebars.templates['trickleNudge'](data));
             return this;
         },
 

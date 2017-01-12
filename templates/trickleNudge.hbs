@@ -1,4 +1,11 @@
 <div class="trickle-nudge-inner">
-	<div class="nudge-content">Did you notice? <button class="got-it">GOT IT</button></div>
+	<div class="trickle-nudge-content nudge-content">
+		{{#if _globals._extensions._nudge.trickle}}
+			{{_globals._extensions._nudge.trickle}}
+		{{else}}
+			[Label not set (see README)]
+		{{/if}}
+		<button class="base close-nudge icon icon-cross"></button>
+	</div>
 	<div class="triangle"/>
 </div>

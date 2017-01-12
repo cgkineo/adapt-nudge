@@ -1,6 +1,6 @@
 .page-nudge {
-	position:fixed;
-	z-index:1000;
+	position: fixed;
+	z-index: 1000;
 
 	&[data-mode='scroll'] {
 		.scroll-nudge {
@@ -20,58 +20,49 @@
 		}
 	}
 
-	button.got-it {
-		font-size:12px;
-		padding:2px;
-		margin-left:5px;
-	}
-
 	.scroll-nudge {
-
 		position: fixed;
-		bottom:0px;
-		right:0px;
-		width:212px;
-		height:26px;
-		padding:4px 8px;
-		background-color: orange;
+		bottom: 10px;
+		right: 10px;
+
+		.nudge-content:before {
+			content: "\e64f";
+		}
 	}
 
 	.plp-nudge {
 		position: fixed;
-		top:40px;
-		right:0px;
+		top: 50px;
+		right: 10px;
 
 		.triangle {
 			width: 0;
 			height: 0;
 			border-style: solid;
 			border-width: 0 10px 24px 10px;
-			border-color: transparent transparent orange transparent;
+			border-color: transparent transparent @primary-color transparent;
 		}
 
-		.plp-nudge-content {
-			padding:4px 8px;
-			background-color: orange;
+		.nudge-content:before {
+			content: "\e638";
 		}
 	}
 
 	.complete-nudge {
 		position: fixed;
-		top:40px;
-		left:0px;
+		top: 50px;
+		left: 10px;
 
 		.triangle {
 			width: 0;
 			height: 0;
 			border-style: solid;
 			border-width: 0 10px 24px 10px;
-			border-color: transparent transparent orange transparent;
+			border-color: transparent transparent @primary-color transparent;
 		}
 
-		.complete-nudge-content {
-			padding:4px 8px;
-			background-color: orange;
+		.nudge-content:before {
+			content: "\e616";
 		}
 	}
 }

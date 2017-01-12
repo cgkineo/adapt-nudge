@@ -1,25 +1,19 @@
 .trickle-nudge {
-	position:fixed;
-	right:0px;
-	z-index:1000;
-
-	button.got-it {
-		font-size:12px;
-		padding:2px;
-		margin-left:5px;
-	}
+	position: fixed;
+	right: 10px;
+	z-index: 1000;
 
 	.triangle {
 		width: 0;
 		height: 0;
 		border-style: solid;
 		border-width: 24px 10px 0 10px;
-		border-color: orange transparent transparent transparent;
-		margin-left:20px;
+		border-color: @primary-color transparent transparent transparent;
+		margin-left: 20px;
 	}
 
-	.nudge-content {
-		padding:4px 8px;
-		background-color: orange;
+	.nudge-content:before {
+		content: "\e638";
 	}
+		
 }
