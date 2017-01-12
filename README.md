@@ -24,22 +24,22 @@ This is quite difficult to achieve and it is important not to over-burden the us
 
 Nudge functions by setting a timer. With each firing of the timer the extension decides whether to 'nudge' the user: a nudge will typically be a small notification in the corner of the screen that is notable but unobtrusive. The following is a description of how Nudge behaves under default conditions. Nudge can be configured on multiple levels to suit the needs of the project (see [Configuration](#user-content-configuration)).
 
-Operating in two stages, Nudge begins in the 'scroll' mode. In this mode the user is reminded when there is content that must be scrolled into view. The user will not be nudged if there are incomplete, interactive components visible. Visibility is judged by the percentage a component is within the viewport. This value can be configured for the course and also by component if required.
+Nudge begins in the 'scroll' mode. In this mode the user is reminded when there is content that must be scrolled into view. The user will not be nudged if there are incomplete, interactive components visible. Visibility is judged by the percentage a component is within the viewport. This value can be configured for the course and also by component if required.
 
 Some components do not require direct user interaction, such as text and graphic components. These components rely on being seen fully by the user to be considered complete. Because of this, these components are not treated in the same way as described for interactive components. That is, when they are the only incomplete components visible, the extension will encourage the user to bring them fully into view by invoking a nudge.
 
-If the user dismisses the scroll reminder (by clicking 'Got it') it will not show again. Nudge then changes to the 'plp' mode.
+If the user dismisses the scroll reminder (by clicking the 'X') it will not show again. Nudge then changes to the 'plp' mode.
 
 In the 'plp' mode the user is reminded that page-level progress reveals overall page progress and which content is completed and which is incomplete. If the user completes the last (non-optional) component on the page before completing prior components, Nudge will move into the 'plp' mode, because:
 
 - the user has skipped over components and may not realise they are incomplete
 - by reaching the end of the page the user has demonstrated that he/she is aware of the page size/need to scroll.
 
-The user can dimiss the plp reminder by clicking 'Got it' or opening page-level progress and the nudge will not show again.
+The user can dimiss the plp reminder by clicking the 'X' or opening page-level progress and the nudge will not show again.
 
-In addition to drawing user attention to page-level progress and prompting the user to scroll, the extension also helps users become familiar with trickle. After a period of inactivity, if the trickle button is visible then the user will receive a nudge. Clicking 'Got it' will dismiss the trickle nudge and it will not show again.
+In addition to drawing user attention to page-level progress and prompting the user to scroll, the extension also helps users become familiar with trickle. After a period of inactivity, if the trickle button is visible then the user will receive a nudge. Clicking the 'X' will dismiss the trickle nudge and it will not show again.
 
-Once the page is completed Nudge changes to the 'complete' mode. After a period of inactivity the extension will draw the user's attention to the navigation back button by annotating it with a nudge. The user can dimiss the back button reminder by clicking 'Got it' and the nudge will not show again.
+Once the page is completed Nudge changes to the 'complete' mode. After a period of inactivity the extension will draw the user's attention to the navigation back button by annotating it with a nudge. The user can dimiss the back button reminder by clicking the 'X' and the nudge will not show again.
 
 N.B. completing a component signifies that the user is actively engaging with the learning and therefore resets the timer. Naturally, when the user scrolls through the content this action also resets the timer.
 
@@ -67,7 +67,7 @@ When the extension is installed without configuration it is enabled by default. 
 
 >**_isPageCompletionEnabled** (boolean): Turns on and off the page completion/back button nudge for all pages. Default value is `true`.
 
->**_isTrackingEnabled** (boolean): Determines whether the extension records where nudges are no longer required. For example, if the user has used page-level progress (or clicked 'Got it') then the plp nudge will not be shown again. Requires [adapt-contrib-spoor](https://github.com/adaptlearning/adapt-contrib-spoor). Default value is `true`.
+>**_isTrackingEnabled** (boolean): Determines whether the extension records where nudges are no longer required. For example, if the user has used page-level progress (or clicked the 'X') then the plp nudge will not be shown again. Requires [adapt-contrib-spoor](https://github.com/adaptlearning/adapt-contrib-spoor). Default value is `true`.
 
 >**_visibilityThreshold** (number): The percentage of a component's area that is considered to make a component sufficiently apparent to the user. Default value is `33`.
 
