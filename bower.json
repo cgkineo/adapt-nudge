@@ -20,7 +20,8 @@
         "ui", "ux",
         "walkthrough",
         "reminder",
-        "onboarding"
+        "onboarding",
+        "hint", "hinting"
     ],
     "license": "GPLv3",
     "targetAttribute": "_nudge"
