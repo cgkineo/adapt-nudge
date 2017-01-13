@@ -11,7 +11,16 @@
     "main": "/js/adapt-nudge.js",
     "keywords": [
         "adapt-plugin",
-        "adapt-extension"
+        "adapt-extension",
+        "help", "aid",
+        "navigate", "navigation",
+        "signpost",
+        "tooltip",
+        "illustrate", "illustration",
+        "ui", "ux",
+        "walkthrough",
+        "reminder",
+        "onboarding"
     ],
     "license": "GPLv3",
     "targetAttribute": "_nudge"
