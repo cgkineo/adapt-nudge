@@ -1,0 +1,246 @@
+{
+  "type":"object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://jsonschema.net",
+  "required":false,
+  "globals": {
+    "scroll": {
+      "type": "string",
+      "required": true,
+      "default": "",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
+    },
+    "plp": {
+      "type": "string",
+      "required": true,
+      "default": "",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
+    },
+    "trickle": {
+      "type": "string",
+      "required": true,
+      "default": "",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
+    },
+    "complete": {
+      "type": "string",
+      "required": true,
+      "default": "",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
+    }
+  },
+  "properties":{
+    "pluginLocations": {
+      "type":"object",
+      "required":true,
+      "properties":{
+        "config": {
+          "type":"object"
+        },
+        "course": {
+          "type":"object",
+          "properties": {
+            "_nudge": {
+              "type":"object",
+              "required":false,
+              "legend": "Nudge",
+              "properties": {
+                "_isEnabled": {
+                  "type": "boolean",
+                  "required":false,
+                  "title": "Enable Nudge",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help":"Turns on and off the Nudge extension across the whole course"
+                },
+                "_nonInteractiveComponents": {
+                  "type": "object",
+                  "required":false,
+                  "properties": {
+                    "_autoAssign": {
+                      "type": "boolean",
+                      "required":true,
+                      "title":"Auto assign",
+                      "inputType": { "type": "Boolean", "options": [false, true]},
+                      "validators": ["required"],
+                      "help":"Whether the extension will set the property `_isNonInteractive` to `true` on all component types listed in `_components`"
+                    },
+                    "_components": {
+                      "type": "array",
+                      "required":true,
+                      "title":"Components",
+                      "items": {
+                        "type": "string",
+                        "required":true,
+                        "default": "",
+                        "title": "Component name",
+                        "inputType": "Text",
+                        "validators": ["required"],
+                        "help": "The name of a component, e.g. 'assessmentResults'"
+                      }
+                    }
+                  },
+                  "help":"Used to describe which types of components do not need direct interaction by the user and which rely on being seen (in full) by the user to be considered complete"
+                },
+                "_isScrollEnabled": {
+                  "type": "boolean",
+                  "required":false,
+                  "title": "Enable scroll nudge",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help":"Turns on and off scroll nudges for all pages"
+                },
+                "_isPlpEnabled": {
+                  "type": "boolean",
+                  "required":false,
+                  "title": "Enable page-level progress nudge",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help":"Turns on and off page-level nudges for all pages"
+                },
+                "_isTrickleEnabled": {
+                  "type": "boolean",
+                  "required":false,
+                  "title": "Enable trickle nudge",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help":"Turns on and off trickle nudges for all pages"
+                },
+                "_isPageCompletionEnabled": {
+                  "type": "boolean",
+                  "required":false,
+                  "title": "Enable page completion (back button) nudge",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help":"Turns on and off page completion (back button) nudges for all pages"
+                },
+                "_isTrackingEnabled": {
+                  "type": "boolean",
+                  "required":false,
+                  "title": "Enable tracking",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help":"Determines whether the extension records where nudges are no longer required"
+                },
+                "_visibilityThreshold": {
+                  "type": "number",
+                  "required":false,
+                  "default":"33",
+                  "title": "Visibility threshold",
+                  "inputType": "Number",
+                  "validators": ["number"],
+                  "help":"The percentage of a component's area that is considered to make a component sufficiently apparent to the user"
+                },
+                "_wait": {
+                  "type": "number",
+                  "required":false,
+                  "default":"5000",
+                  "title": "Visibility threshold",
+                  "inputType": "Number",
+                  "validators": ["number"],
+                  "help":"The minimum number of milliseconds between each nudge"
+                }
+              }
+            }
+          }
+        },
+        "contentobject": {
+          "type":"object",
+          "properties": {
+            "_nudge": {
+              "type":"object",
+              "required":false,
+              "legend": "Nudge",
+              "properties": {
+                "_isEnabled": {
+                  "type": "boolean",
+                  "required":false,
+                  "title": "Enable Nudge",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help":"Turns on and off the Nudge extension for this page"
+                },
+                "_isScrollEnabled": {
+                  "type": "boolean",
+                  "required":false,
+                  "title": "Enable scroll nudge",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help":"Turns on and off scroll nudges for this page"
+                },
+                "_isPlpEnabled": {
+                  "type": "boolean",
+                  "required":false,
+                  "title": "Enable page-level progress nudge",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help":"Turns on and off the page-level nudge for this page"
+                },
+                "_isTrickleEnabled": {
+                  "type": "boolean",
+                  "required":false,
+                  "title": "Enable trickle nudge",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help":"Turns on and off trickle nudges for this page"
+                },
+                "_isPageCompletionEnabled": {
+                  "type": "boolean",
+                  "required":false,
+                  "title": "Enable page completion (back button) nudge",
+                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "validators": [],
+                  "help":"Turns on and off the page completion (back button) nudge for this page"
+                },
+                "_wait": {
+                  "type": "number",
+                  "required":false,
+                  "default":"5000",
+                  "title": "Visibility threshold",
+                  "inputType": "Number",
+                  "validators": ["number"],
+                  "help":"The minimum number of milliseconds between each nudge for this page"
+                }
+              }
+            }
+          }
+        },
+        "article": {
+          "type":"object"
+        },
+        "block": {
+          "type":"object"
+        },
+        "component": {
+          "type":"object",
+          "properties": {
+            "_nudge": {
+              "type":"object",
+              "required":false,
+              "legend": "Nudge",
+              "properties": {
+                "_visibilityThreshold": {
+                  "type": "number",
+                  "required":false,
+                  "default":"33",
+                  "title": "Visibility threshold",
+                  "inputType": "Number",
+                  "validators": ["number"],
+                  "help":"The percentage of this component's area that is considered to make the component sufficiently apparent to the user"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
