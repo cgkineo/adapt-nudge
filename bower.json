@@ -12,16 +12,21 @@
     "keywords": [
         "adapt-plugin",
         "adapt-extension",
-        "help", "aid",
-        "navigate", "navigation",
+        "help",
+        "aid",
+        "navigate",
+        "navigation",
         "signpost",
         "tooltip",
-        "illustrate", "illustration",
-        "ui", "ux",
+        "illustrate",
+        "illustration",
+        "ui",
+        "ux",
         "walkthrough",
         "reminder",
         "onboarding",
-        "hint", "hinting"
+        "hint",
+        "hinting"
     ],
     "license": "GPLv3",
     "targetAttribute": "_nudge"
