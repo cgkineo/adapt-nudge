@@ -67,7 +67,7 @@
                   "properties": {
                     "_autoAssign": {
                       "type": "boolean",
-                      "required":true,
+                      "required":false,
                       "title":"Auto assign",
                       "inputType": { "type": "Boolean", "options": [false, true]},
                       "validators": ["required"],
@@ -143,7 +143,7 @@
                   "type": "number",
                   "required":false,
                   "default":"5000",
-                  "title": "Visibility threshold",
+                  "title": "Wait",
                   "inputType": "Number",
                   "validators": ["number"],
                   "help":"The minimum number of milliseconds between each nudge"
@@ -204,7 +204,7 @@
                   "type": "number",
                   "required":false,
                   "default":"5000",
-                  "title": "Visibility threshold",
+                  "title": "Wait",
                   "inputType": "Number",
                   "validators": ["number"],
                   "help":"The minimum number of milliseconds between each nudge for this page"
