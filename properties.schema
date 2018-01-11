@@ -70,7 +70,7 @@
                       "required":false,
                       "title":"Auto assign",
                       "inputType": { "type": "Boolean", "options": [false, true]},
-                      "validators": ["required"],
+                      "validators": [],
                       "help":"Whether the extension will set the property `_isNonInteractive` to `true` on all component types listed in `_components`"
                     },
                     "_components": {
