@@ -7,7 +7,7 @@
     "scroll": {
       "type": "string",
       "required": true,
-      "default": "",
+      "default": "Scroll down when ready",
       "inputType": "Text",
       "validators": [],
       "translatable": true
@@ -15,7 +15,7 @@
     "plp": {
       "type": "string",
       "required": true,
-      "default": "",
+      "default": "Click here to view your progress",
       "inputType": "Text",
       "validators": [],
       "translatable": true
@@ -23,7 +23,7 @@
     "trickle": {
       "type": "string",
       "required": true,
-      "default": "",
+      "default": "Did you notice?",
       "inputType": "Text",
       "validators": [],
       "translatable": true
@@ -31,7 +31,7 @@
     "complete": {
       "type": "string",
       "required": true,
-      "default": "",
+      "default": "Click here to return to the menu",
       "inputType": "Text",
       "validators": [],
       "translatable": true
@@ -56,6 +56,7 @@
                 "_isEnabled": {
                   "type": "boolean",
                   "required":false,
+                  "default":true,
                   "title": "Enable Nudge",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -68,6 +69,7 @@
                     "_autoAssign": {
                       "type": "boolean",
                       "required":false,
+                      "default":true,
                       "title":"Auto assign",
                       "inputType": { "type": "Boolean", "options": [false, true]},
                       "validators": ["required"],
@@ -80,7 +82,13 @@
                       "items": {
                         "type": "string",
                         "required":true,
-                        "default": "",
+                        "default": [
+                          "assessmentResults",
+                          "assessmentResultsTotal",
+                          "blank",
+                          "graphic",
+                          "text"
+                        ],
                         "title": "Component name",
                         "inputType": "Text",
                         "validators": ["required"],
@@ -93,6 +101,7 @@
                 "_isScrollEnabled": {
                   "type": "boolean",
                   "required":false,
+                  "default":true,
                   "title": "Enable scroll nudge",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -101,6 +110,7 @@
                 "_isPlpEnabled": {
                   "type": "boolean",
                   "required":false,
+                  "default":true,
                   "title": "Enable page-level progress nudge",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -109,6 +119,7 @@
                 "_isTrickleEnabled": {
                   "type": "boolean",
                   "required":false,
+                  "default":true,
                   "title": "Enable trickle nudge",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -117,6 +128,7 @@
                 "_isPageCompletionEnabled": {
                   "type": "boolean",
                   "required":false,
+                  "default":true,
                   "title": "Enable page completion (back button) nudge",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -125,6 +137,7 @@
                 "_isTrackingEnabled": {
                   "type": "boolean",
                   "required":false,
+                  "default":true,
                   "title": "Enable tracking",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -163,6 +176,7 @@
                 "_isEnabled": {
                   "type": "boolean",
                   "required":false,
+                  "default":true,
                   "title": "Enable Nudge",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -171,6 +185,7 @@
                 "_isScrollEnabled": {
                   "type": "boolean",
                   "required":false,
+                  "default":true,
                   "title": "Enable scroll nudge",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -179,6 +194,7 @@
                 "_isPlpEnabled": {
                   "type": "boolean",
                   "required":false,
+                  "default":true,
                   "title": "Enable page-level progress nudge",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -187,6 +203,7 @@
                 "_isTrickleEnabled": {
                   "type": "boolean",
                   "required":false,
+                  "default":true,
                   "title": "Enable trickle nudge",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
@@ -195,6 +212,7 @@
                 "_isPageCompletionEnabled": {
                   "type": "boolean",
                   "required":false,
+                  "default":true,
                   "title": "Enable page completion (back button) nudge",
                   "inputType": { "type": "Boolean", "options": [false, true]},
                   "validators": [],
