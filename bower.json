@@ -2,7 +2,7 @@
     "name": "adapt-nudge",
     "repository": "git://github.com/chris-steele/adapt-nudge.git",
     "framework": "^2.0.15",
-    "version": "2.0.3",
+    "version": "2.0.4",
     "homepage": "https://github.com/chris-steele/adapt-nudge",
     "issues": "https://github.com/chris-steele/adapt-nudge/issues/",
     "displayName": "Nudge",
