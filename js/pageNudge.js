@@ -50,7 +50,7 @@ define([
 			this._finished = false;
 
 			this.listenToOnce(Adapt, {
-				"pageView:postRender": this.onPostRender,
+				"pageView:ready": this.onReady,
 				"preRemove": this.onPreRemove
 			});
 
@@ -62,7 +62,7 @@ define([
 			else if (showPageCompletionNudge) this._setMode('complete');
 		},
 
-		onPostRender: function(view) {
+		onReady: function(view) {
 			this._addEventListeners();
 		},
 
@@ -104,7 +104,7 @@ define([
 			this.stopListening(this._components);
 
 			this.stopListening(Adapt, {
-				'pageView:postRender':this.onPostRender,
+				'pageView:ready':this.onReady,
 				'notify:opened':this.onNotifyOpened,
 				'notify:closed':this.onNotifyClosed,
 				'nudge:userGotIt':this.onUserGotIt,
@@ -128,7 +128,7 @@ define([
 
 		_showNudge: function() {
 			this._indicateToUser = true;
-			this._nudgeView.setVisible(this._overlayCount == 0);
+			this._nudgeView.setVisible(!this._isOverlayVisible());
 		},
 
 		_hideNudge: function() {
@@ -226,6 +226,10 @@ define([
 			}
 		},
 
+		_isOverlayVisible:function() {
+			return this._overlayCount > 0;
+		},
+
 		logComponentVisibilityState:function(state) {
 			console.log('onscreen:', _.map(state.onscreen, function(s){return s.component.get('_id')}).join(','));
 			console.log('offscreen:', _.map(state.offscreen, function(s){return s.component.get('_id')}).join(','));
@@ -249,14 +253,14 @@ define([
 		onNotifyClosed: function() {
 			this._overlayCount--;
 			if (this._indicateToUser) {
-				this._nudgeView.setVisible(this._overlayCount == 0);
+				this._nudgeView.setVisible(!this._isOverlayVisible());
 			} else {
 				this._restartTimer();
 			}
 		},
 
 		onTimer:function() {
-			if (this._overlayCount == 0) {
+			if (!this._isOverlayVisible()) {
 				switch (this._mode) {
 					case 'scroll': return this._checkScrollNudge();
 					case 'plp': return this._checkPlpNudge();
@@ -343,7 +347,7 @@ define([
 			if (Adapt.nudge.debug) console.log('onDrawerClosed');
 			this._overlayCount--;
 			if (this._indicateToUser) {
-				this._nudgeView.setVisible(this._overlayCount == 0);
+				this._nudgeView.setVisible(!this._isOverlayVisible());
 			} else {
 				this._restartTimer();
 			}
