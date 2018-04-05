@@ -1,7 +1,18 @@
 define([
 	'coreJS/adapt',
-	'./pageNudgeView'
-], function(Adapt, PageNudgeView) {
+	'./pageNudgeView',
+	'./enums/nudgeStateEnum'
+], function(Adapt, PageNudgeView, NUDGE_STATE) {
+
+	/*
+		This module controls the display of three different page nudges; scroll, plp and completion. These nudges are
+		displayed in this order, but they are not mandatory; one or more of them can be disabled. There is one
+		exception to the rule of order and that is as soon as the page is completed the completion nudge will become
+		active.
+
+		If a page nudge is visible, it will be hidden temporarily if a trickle nudge appears or if a notify or drawer
+		overlay is opened. Once these are hidden the page nudge will be shown again.
+	*/
 
 	var PageNudge = _.extend({
 
@@ -10,7 +21,7 @@ define([
 		_finished:true,
 		_view:null,
 		_components:null,
-		_mode:'scroll',
+		_mode:NUDGE_STATE.SCROLL,
 		_nudgeView:null,
 
 		initialize: function() {
@@ -39,6 +50,7 @@ define([
 			var pageConfig = Adapt.nudge.getConfig(view.model);
 			var showScrollNudge = courseConfig._isScrollEnabled && pageConfig._isScrollEnabled && !courseConfig._hasUserGotScroll;
 			var showPlpNudge = courseConfig._isPlpEnabled && pageConfig._isPlpEnabled && !courseConfig._hasUserGotPlp && !courseConfig._hasPlpBeenOpened;
+			var nudgePlpBeforeScroll = courseConfig._nudgePlpBeforeScroll;
 			var showPageCompletionNudge = courseConfig._isPageCompletionEnabled && pageConfig._isPageCompletionEnabled && !courseConfig._hasUserGotPageCompletion && !courseConfig._hasBackButtonBeenClicked;
 
 			if (!showScrollNudge && !showPlpNudge && !showPageCompletionNudge) return;
@@ -55,11 +67,14 @@ define([
 			});
 
 			this._nudgeView = new PageNudgeView();
+			this._nudgeView.setCompletionTargetSelector(pageConfig._completionNudgeTarget);
+
 			$('#wrapper').append(this._nudgeView.$el);
 
-			if (showScrollNudge) this._setMode('scroll');
-			else if (showPlpNudge) this._setMode('plp');
-			else if (showPageCompletionNudge) this._setMode('complete');
+			if (showPlpNudge && nudgePlpBeforeScroll) this._setMode(NUDGE_STATE.PLP);
+			else if (showScrollNudge) this._setMode(NUDGE_STATE.SCROLL);
+			else if (showPlpNudge) this._setMode(NUDGE_STATE.PLP);
+			else if (showPageCompletionNudge) this._setMode(NUDGE_STATE.COMPLETE);
 		},
 
 		onReady: function(view) {
@@ -140,7 +155,7 @@ define([
 			var onscreen = [], offscreen = [];
 			this._components.each(function(c) {
 				if (c.get('_isAvailable') && c.get('_isVisible')) {
-					var state = $('.'+c.get('_id')).onscreen();
+					var state = $('[data-adapt-id="'+c.get('_id')+'"]').onscreen();
 					if (state.onscreen) {
 						onscreen.push({'component':c, 'state':state});
 					} else {
@@ -161,36 +176,45 @@ define([
 		_changeMode:function() {
 			var courseConfig = Adapt.nudge.getConfig();
 			var pageConfig = Adapt.nudge.getConfig(this._view.model);
+			var scrollModeDisabled = !courseConfig._isScrollEnabled || !pageConfig._isScrollEnabled;
 			var plpModeDisabled = !courseConfig._isPlpEnabled || !pageConfig._isPlpEnabled;
+			var nudgePlpBeforeScroll = courseConfig._nudgePlpBeforeScroll;
 			var pageCompletionDisabled = !courseConfig._isPageCompletionEnabled || !pageConfig._isPageCompletionEnabled;
 			
-			if (this._mode == 'complete') {
-				if (Adapt.nudge.debug) console.log('_changeMode: mode=complete, calling finish');
-				this.finish();
-			}
-			else if (this._mode == 'plp') {
-				if (!pageCompletionDisabled && !courseConfig._hasUserGotPageCompletion && !courseConfig._hasBackButtonBeenClicked) {
-					this._setMode('complete');
-					this._hideNudge();
-					this._restartTimer();
-				} else {
-					if (Adapt.nudge.debug) console.log('_changeMode: mode=plp, calling finish');
+			switch (this._mode) {
+				case NUDGE_STATE.COMPLETE:
+					if (Adapt.nudge.debug) console.log('_changeMode: mode=complete, calling finish');
 					this.finish();
-				}
-			}
-			else if (this._mode == 'scroll') {
-				if (!plpModeDisabled && !courseConfig._hasUserGotPlp && !courseConfig._hasPlpBeenOpened) {
-					this._setMode('plp');
-					this._hideNudge();
-					this._restartTimer();
-				} else if (!pageCompletionDisabled && !courseConfig._hasUserGotPageCompletion && !courseConfig._hasBackButtonBeenClicked) {
-					this._setMode('complete');
-					this._hideNudge();
-					this._restartTimer();
-				} else {
-					if (Adapt.nudge.debug) console.log('_changeMode: mode=scroll, calling finish');
-					this.finish();
-				}
+					break;
+				case NUDGE_STATE.PLP:
+					if (nudgePlpBeforeScroll && !scrollModeDisabled && !courseConfig._hasUserGotScroll) {
+						this._setMode(NUDGE_STATE.SCROLL);
+						this._hideNudge();
+						this._restartTimer();
+					}
+					else if (!pageCompletionDisabled && !courseConfig._hasUserGotPageCompletion && !courseConfig._hasBackButtonBeenClicked) {
+						this._setMode(NUDGE_STATE.COMPLETE);
+						this._hideNudge();
+						this._restartTimer();
+					} else {
+						if (Adapt.nudge.debug) console.log('_changeMode: mode=plp, calling finish');
+						this.finish();
+					}
+					break;
+				case NUDGE_STATE.SCROLL:
+					if (!nudgePlpBeforeScroll && !plpModeDisabled && !courseConfig._hasUserGotPlp && !courseConfig._hasPlpBeenOpened) {
+						this._setMode(NUDGE_STATE.PLP);
+						this._hideNudge();
+						this._restartTimer();
+					} else if (!pageCompletionDisabled && !courseConfig._hasUserGotPageCompletion && !courseConfig._hasBackButtonBeenClicked) {
+						this._setMode(NUDGE_STATE.COMPLETE);
+						this._hideNudge();
+						this._restartTimer();
+					} else {
+						if (Adapt.nudge.debug) console.log('_changeMode: mode=scroll, calling finish');
+						this.finish();
+					}
+					break;
 			}
 		},
 
@@ -214,8 +238,9 @@ define([
 		_checkPlpNudge:function() {
 			// determine if user has interacted with last component
 			var lastComponentInteracted = _.last(this._components.where({'_isOptional':false})).get('_isInteractionComplete');
+			var courseConfig = Adapt.nudge.getConfig();
 
-			if (lastComponentInteracted) {
+			if (lastComponentInteracted || courseConfig._nudgePlpBeforeScroll) {
 				this._showNudge();
 			}
 		},
@@ -239,9 +264,24 @@ define([
 			// perform this check to prevent last throttled call executing erroneously
 			if (this._finished) return;
 
-			if (this._mode == 'scroll') {
-				this._hideNudge();
-				this._restartTimer();
+			var courseConfig = Adapt.nudge.getConfig();
+			var pageConfig = Adapt.nudge.getConfig(this._view.model);
+
+			if (this._mode == NUDGE_STATE.SCROLL) {
+				if (this._nudgeView.state._isVisible && courseConfig._showScrollNudgeOnlyOnce) {
+					// disable on all pages now
+					courseConfig._hasUserGotScroll = true;
+					this._changeMode();
+					Adapt.nudge.saveState();
+				} else if (this._nudgeView.state._isVisible && pageConfig._showScrollNudgeOnlyOnce) {
+					// disable on this page from now
+					pageConfig._isScrollEnabled = false;
+					this._changeMode();
+					Adapt.nudge.saveState();
+				} else {
+					this._hideNudge();
+					this._restartTimer();
+				}
 			}
 		},
 
@@ -262,9 +302,9 @@ define([
 		onTimer:function() {
 			if (!this._isOverlayVisible()) {
 				switch (this._mode) {
-					case 'scroll': return this._checkScrollNudge();
-					case 'plp': return this._checkPlpNudge();
-					case 'complete': return this._checkPageCompletionNudge();
+					case NUDGE_STATE.SCROLL: return this._checkScrollNudge();
+					case NUDGE_STATE.PLP: return this._checkPlpNudge();
+					case NUDGE_STATE.COMPLETE: return this._checkPageCompletionNudge();
 				}
 			}
 		},
@@ -278,7 +318,7 @@ define([
 				if (Adapt.nudge.debug) console.log('onPageComplete: calling finish');
 				this.finish();
 			} else {
-				this._setMode('complete');
+				this._setMode(NUDGE_STATE.COMPLETE);
 				this._hideNudge();
 			}
 		},
@@ -297,7 +337,7 @@ define([
 
 			Adapt.nudge.saveState();
 
-			if (this._mode == 'scroll') this._changeMode();
+			if (this._mode == NUDGE_STATE.SCROLL) this._changeMode();
 		},
 
 		onUserGotIt:function(nudgeView) {
@@ -308,9 +348,9 @@ define([
 			var plpModeDisabled = !courseConfig._isPlpEnabled || !pageConfig._isPlpEnabled;
 			var pageCompletionDisabled = !courseConfig._isPageCompletionEnabled || !pageConfig._isPageCompletionEnabled;
 
-			if (this._mode == 'scroll') courseConfig._hasUserGotScroll = true;
-			else if (this._mode == 'plp') courseConfig._hasUserGotPlp = true;
-			else if (this._mode == 'complete') courseConfig._hasUserGotPageCompletion = true;
+			if (this._mode == NUDGE_STATE.SCROLL) courseConfig._hasUserGotScroll = true;
+			else if (this._mode == NUDGE_STATE.PLP) courseConfig._hasUserGotPlp = true;
+			else if (this._mode == NUDGE_STATE.COMPLETE) courseConfig._hasUserGotPageCompletion = true;
 
 			Adapt.nudge.saveState();
 			
@@ -339,7 +379,7 @@ define([
 					Adapt.nudge.getConfig()._hasPlpBeenOpened = true;
 					Adapt.nudge.saveState();
 				}
-				if (this._mode == 'plp') this._changeMode();
+				if (this._mode == NUDGE_STATE.PLP) this._changeMode();
 			}
 		},
 

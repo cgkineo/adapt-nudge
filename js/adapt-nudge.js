@@ -23,6 +23,8 @@ define([
             '_isTrickleEnabled': true,
             '_isTrackingEnabled':true,
             '_isPageCompletionEnabled':true,
+            '_nudgePlpBeforeScroll': false,
+            '_showScrollNudgeOnlyOnce': false,
             '_hasUserGotScroll':false,
             '_hasUserGotPlp':false,
             '_hasUserGotTrickle':false,
@@ -30,7 +32,8 @@ define([
             '_hasPlpBeenOpened':false,
             '_hasBackButtonBeenClicked':false,
             '_visibilityThreshold':33,
-            '_wait':5000
+            '_wait':5000,
+            '_debug': false
         },
 
         pageDefaults: {
@@ -38,6 +41,8 @@ define([
             '_isPlpEnabled': true,
             '_isTrickleEnabled': true,
             '_isPageCompletionEnabled':true,
+            '_showScrollNudgeOnlyOnce': false,
+            '_completionNudgeTarget': '.navigation-back-button',
             '_wait':5000
         },
 
@@ -45,7 +50,7 @@ define([
             '_visibilityThreshold':33
         },
 
-        debug:true,
+        debug:false,
 
         initialize: function() {
             this.listenToOnce(Adapt, 'app:dataReady', this.setup);
@@ -54,6 +59,8 @@ define([
 
         setup:function() {
             var courseConfig = this.getConfig();
+
+            this.debug = courseConfig._debug;
 
             if (courseConfig._nonInteractiveComponents._autoAssign) {
                 Adapt.components.each(function(c) {

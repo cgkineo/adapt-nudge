@@ -3,6 +3,14 @@ define([
 	'./trickleNudgeView'
 ], function(Adapt, TrickleNudgeView) {
 
+	/*
+		This module controls the display of trickle nudges. A trickle nudge appears after a trickle button has been
+		visible for a fixed period of time.
+
+		If a trickle nudge is visible, it will be hidden temporarily if a notify or drawer overlay is opened. Once these
+		are hidden the page nudge will be shown again.
+	*/
+
 	var TrickleNudge = _.extend({
 
 		_overlayCount:0,

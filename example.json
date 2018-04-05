@@ -1,7 +1,7 @@
 // course.json
 
 "nudge": {
-    "_isEnabled":true,
+    "_isEnabled": true,
     "_nonInteractiveComponents": {
         "_autoAssign": true,
         "_components": [
@@ -14,10 +14,13 @@
     "_isScrollEnabled": true,
     "_isPlpEnabled": true,
     "_isTrickleEnabled": true,
-    "_isPageCompletionEnabled":true,
-    "_isTrackingEnabled":true,
-    "_visibilityThreshold":33,
-    "_wait":5000
+    "_isPageCompletionEnabled": true,
+    "_isTrackingEnabled": true,
+    "_nudgePlpBeforeScroll": false,
+    "_showScrollNudgeOnlyOnce": false,
+    "_visibilityThreshold": 33,
+    "_wait": 5000,
+    "_debug": false
 },
 
 // contentObjects.json
@@ -26,8 +29,10 @@
     "_isScrollEnabled": true,
     "_isPlpEnabled": true,
     "_isTrickleEnabled": true,
-    "_isPageCompletionEnabled":true,
-    "_wait":5000
+    "_isPageCompletionEnabled": true,
+    "_showScrollNudgeOnlyOnce": false,
+    "_completionNudgeTarget": false,
+    "_wait": 5000
 }
 
 // components.json

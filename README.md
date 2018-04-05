@@ -39,7 +39,7 @@ The user can dimiss the plp reminder by clicking the 'X' or opening page-level p
 
 In addition to drawing user attention to page-level progress and prompting the user to scroll, the extension also helps users become familiar with trickle. After a period of inactivity, if the trickle button is visible then the user will receive a nudge. Clicking the 'X' will dismiss the trickle nudge and it will not show again.
 
-Once the page is completed Nudge changes to the 'complete' mode. After a period of inactivity the extension will draw the user's attention to the navigation back button by annotating it with a nudge. The user can dimiss the back button reminder by clicking the 'X' and the nudge will not show again.
+Once the page is completed Nudge changes to the 'complete' mode. After a period of inactivity the extension will draw the user's attention to the navigation back button by annotating it with a nudge. The user can dimiss the back button reminder by clicking the 'X' and the nudge will not show again. N.B. the completion nudge can be positioned to an element other than the navigation back button. See `_completionNudgeTarget` in the Page level configuration.
 
 N.B. completing a component signifies that the user is actively engaging with the learning and therefore resets the timer. Naturally, when the user scrolls through the content this action also resets the timer.
 
@@ -65,13 +65,19 @@ When the extension is installed without configuration it is enabled by default. 
 
 >**_isTrickleEnabled** (boolean): Turns on and off trickle nudges for all pages. Default value is `true`.
 
->**_isPageCompletionEnabled** (boolean): Turns on and off the page completion/back button nudge for all pages. Default value is `true`.
+>**_isPageCompletionEnabled** (boolean): Turns on and off the page completion nudge for all pages. Default value is `true`.
 
 >**_isTrackingEnabled** (boolean): Determines whether the extension records where nudges are no longer required. For example, if the user has used page-level progress (or clicked the 'X') then the plp nudge will not be shown again. Requires [adapt-contrib-spoor](https://github.com/adaptlearning/adapt-contrib-spoor). Default value is `true`.
+
+>**_nudgePlpBeforeScroll** (boolean): Determines whether the page-level progress nudge will be invoked as the first nudge. Note that the last (non-optional) component on the page does not need to have been completed when this option is enabled. Default value is `false`.
+
+>**_showScrollNudgeOnlyOnce** (boolean): Determines whether the scroll nudge will only show once. After the nudge has been displayed for the first time the extension will move to the next mode. The scroll nudge will then not display on any other pages. Default value is `false`.
 
 >**_visibilityThreshold** (number): The percentage of a component's area that is considered to make a component sufficiently apparent to the user. Default value is `33`.
 
 >**_wait** (number): The minimum number of milliseconds between each nudge. Default value is `5000`.
+
+>**_debug** (boolean): Turns on and off debugging messages that may be useful for customisaton of this extension. Default value is `false`. There is a `nudge` object on the global `Adapt` object that can be queried for debugging purposes. To further assist debugging, when `_debug` is set to `true` two properties are defined on `window`: `pn` for the `pageNudge` module and `tn` for the `trickleNudge` module. Particularly useful is the `logComponentVisibilityState` function in the `pageNudge` module.
 
 ### Configuration of labels
 
@@ -99,7 +105,11 @@ As expected, these settings affect only the page to which they are attached.
 
 >**_isTrickleEnabled** (boolean): Turns on and off trickle nudges. Default value is `true`.
 
->**_isPageCompletionEnabled** (boolean): Turns on and off the page completion/back button nudge. Default value is `true`.
+>**_isPageCompletionEnabled** (boolean): Turns on and off the page completion nudge. Default value is `true`.
+
+>**_showScrollNudgeOnlyOnce** (boolean): Determines whether the scroll nudge will only once for this page. After the nudge has been displayed for the first time the extension will move to the next mode. Default value is `false`.
+
+>**_completionNudgeTarget** (string): The selector that will be used to position the completion nudge. Defaults to '.navigation-back-button'.
 
 >**_wait** (number): The minimum number of milliseconds between each nudge. Default value is `5000`.
 

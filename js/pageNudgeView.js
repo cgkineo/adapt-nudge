@@ -1,6 +1,7 @@
 define([
-    'coreJS/adapt'
-], function(Adapt) {
+    'coreJS/adapt',
+    './enums/nudgeStateEnum'
+], function(Adapt, NUDGE_STATE) {
 
     var PageNudgeView = Backbone.View.extend({
 
@@ -13,7 +14,8 @@ define([
         initialize:function() {
             this.state = {
                 '_isVisible':null,
-                '_mode':'scroll'
+                '_mode':NUDGE_STATE.SCROLL,
+                '_completionTargetSelector':null
             };
 
             this.render();
@@ -25,12 +27,16 @@ define([
                 _globals: Adapt.course.get('_globals')
             };
             this.$el.html(Handlebars.templates['pageNudge'](data));
-            this.$el.attr('data-mode', this.state._mode);
+            this.$el.attr('data-mode', this.state._mode.asString);
             return this;
         },
 
         remove:function() {
             this.$el.remove();
+        },
+
+        setCompletionTargetSelector:function(completionTargetSelector) {
+            this.state._completionTargetSelector = completionTargetSelector;
         },
 
         setVisible: function(visible) {
@@ -39,13 +45,13 @@ define([
             this.$el.toggleClass('display-none', !visible);
 
             if (visible) {
-                if (this.state._mode == 'plp') {
+                if (this.state._mode == NUDGE_STATE.PLP) {
                     var $plp = $('.page-level-progress-navigation');
                     var margin = ($plp.position().left - this.$('.plp-nudge').position().left) + $plp.outerWidth()/2;
                     this.$('.plp-nudge .triangle').css('margin-left', margin - this.$('.plp-nudge .triangle').outerWidth()/2);
-                } else if (this.state._mode == 'complete') {
-                    var $back = $('.navigation-back-button');
-                    var margin = ($back.position().left - this.$('.complete-nudge').position().left) + $back.outerWidth()/2;
+                } else if (this.state._mode == NUDGE_STATE.COMPLETE) {
+                    var $target = $(this.state._completionTargetSelector);
+                    var margin = ($target.position().left - this.$('.complete-nudge').position().left) + $target.outerWidth()/2;
                     this.$('.complete-nudge .triangle').css('margin-left', margin - this.$('.complete-nudge .triangle').outerWidth()/2);
                 }
             }
@@ -53,7 +59,7 @@ define([
 
         setMode:function(mode) {
             this.state._mode = mode;
-            this.$el.attr('data-mode', this.state._mode);
+            this.$el.attr('data-mode', this.state._mode.asString);
         },
 
         onButtonClicked:function() {
