@@ -1,6 +1,6 @@
 // course.json
 
-"nudge": {
+"_nudge": {
     "_isEnabled": true,
     "_nonInteractiveComponents": {
         "_autoAssign": true,
@@ -25,7 +25,7 @@
 
 // contentObjects.json
 
-"nudge": {
+"_nudge": {
     "_isScrollEnabled": true,
     "_isPlpEnabled": true,
     "_isTrickleEnabled": true,
@@ -37,6 +37,6 @@
 
 // components.json
 
-"nudge": {
+"_nudge": {
     "_visibilityThreshold":33
 }
