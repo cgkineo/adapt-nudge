@@ -58,7 +58,7 @@
                   "required":false,
                   "default":true,
                   "title": "Enable Nudge",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
                   "help":"Turns on and off the Nudge extension across the whole course"
                 },
@@ -71,7 +71,7 @@
                       "required":false,
                       "default":true,
                       "title":"Auto assign",
-                      "inputType": { "type": "Boolean", "options": [false, true]},
+                      "inputType": "Checkbox",
                       "validators": [],
                       "help":"Whether the extension will set the property `_isNonInteractive` to `true` on all component types listed in `_components`"
                     },
@@ -103,7 +103,7 @@
                   "required":false,
                   "default":true,
                   "title": "Enable scroll nudge",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
                   "help":"Turns on and off scroll nudges for all pages"
                 },
@@ -112,7 +112,7 @@
                   "required":false,
                   "default":true,
                   "title": "Enable page-level progress nudge",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
                   "help":"Turns on and off page-level nudges for all pages"
                 },
@@ -121,7 +121,7 @@
                   "required":false,
                   "default":true,
                   "title": "Enable trickle nudge",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
                   "help":"Turns on and off trickle nudges for all pages"
                 },
@@ -130,7 +130,7 @@
                   "required":false,
                   "default":true,
                   "title": "Enable page completion (back button) nudge",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
                   "help":"Turns on and off page completion (back button) nudges for all pages"
                 },
@@ -139,7 +139,7 @@
                   "required":false,
                   "default":true,
                   "title": "Enable tracking",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
                   "help":"Determines whether the extension records where nudges are no longer required"
                 },
@@ -178,7 +178,7 @@
                   "required":false,
                   "default":true,
                   "title": "Enable Nudge",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
                   "help":"Turns on and off the Nudge extension for this page"
                 },
@@ -187,7 +187,7 @@
                   "required":false,
                   "default":true,
                   "title": "Enable scroll nudge",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
                   "help":"Turns on and off scroll nudges for this page"
                 },
@@ -196,7 +196,7 @@
                   "required":false,
                   "default":true,
                   "title": "Enable page-level progress nudge",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
                   "help":"Turns on and off the page-level nudge for this page"
                 },
@@ -205,7 +205,7 @@
                   "required":false,
                   "default":true,
                   "title": "Enable trickle nudge",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
                   "help":"Turns on and off trickle nudges for this page"
                 },
@@ -214,7 +214,7 @@
                   "required":false,
                   "default":true,
                   "title": "Enable page completion (back button) nudge",
-                  "inputType": { "type": "Boolean", "options": [false, true]},
+                  "inputType": "Checkbox",
                   "validators": [],
                   "help":"Turns on and off the page completion (back button) nudge for this page"
                 },
