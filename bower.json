@@ -1,10 +1,13 @@
 {
     "name": "adapt-nudge",
-    "repository": "git://github.com/chris-steele/adapt-nudge.git",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/cgkineo/adapt-nudge.git"
+    },
     "framework": ">=2.0.17",
-    "version": "2.0.7",
-    "homepage": "https://github.com/chris-steele/adapt-nudge",
-    "issues": "https://github.com/chris-steele/adapt-nudge/issues/",
+    "version": "2.0.8",
+    "homepage": "https://github.com/cgkineo/adapt-nudge",
+    "issues": "https://github.com/cgkineo/adapt-nudge/issues/",
     "displayName": "Nudge",
     "extension": "nudge",
     "description": "An extension to help users become familiar with the interface of an Adapt course.",
