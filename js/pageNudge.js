@@ -1,5 +1,5 @@
 define([
-	'coreJS/adapt',
+	'core/js/adapt',
 	'./pageNudgeView',
 	'./enums/nudgeStateEnum'
 ], function(Adapt, PageNudgeView, NUDGE_STATE) {
@@ -164,7 +164,7 @@ define([
 				}
 			});
 			var ret = {'onscreen':onscreen, 'offscreen':offscreen};
-			
+
 			return ret;
 		},
 
@@ -180,7 +180,7 @@ define([
 			var plpModeDisabled = !courseConfig._isPlpEnabled || !pageConfig._isPlpEnabled;
 			var nudgePlpBeforeScroll = courseConfig._nudgePlpBeforeScroll;
 			var pageCompletionDisabled = !courseConfig._isPageCompletionEnabled || !pageConfig._isPageCompletionEnabled;
-			
+
 			switch (this._mode) {
 				case NUDGE_STATE.COMPLETE:
 					if (Adapt.nudge.debug) console.log('_changeMode: mode=complete, calling finish');
@@ -256,8 +256,8 @@ define([
 		},
 
 		logComponentVisibilityState:function(state) {
-			console.log('onscreen:', _.map(state.onscreen, function(s){return s.component.get('_id')}).join(','));
-			console.log('offscreen:', _.map(state.offscreen, function(s){return s.component.get('_id')}).join(','));
+			console.log('onscreen:', _.map(state.onscreen, function(s){return s.component.get('_id');}).join(','));
+			console.log('offscreen:', _.map(state.offscreen, function(s){return s.component.get('_id');}).join(','));
 		},
 
 		onScroll:function() {
@@ -353,7 +353,7 @@ define([
 			else if (this._mode == NUDGE_STATE.COMPLETE) courseConfig._hasUserGotPageCompletion = true;
 
 			Adapt.nudge.saveState();
-			
+
 			this._changeMode();
 		},
 

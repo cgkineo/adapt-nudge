@@ -1,5 +1,5 @@
 define([
-    'coreJS/adapt'
+    'core/js/adapt'
 ], function(Adapt) {
 
     var TrickleNudgeView = Backbone.View.extend({
@@ -40,8 +40,8 @@ define([
             if (this.state._isVisible == visible) return;
 
             this.state._isVisible = visible;
-            this.$el.toggleClass('display-none', !visible)
-            
+            this.$el.toggleClass('display-none', !visible);
+
             if (visible) {
                 this.$el.css('bottom', $('.trickle-button-inner', this.state._$trickleComponent).outerHeight());
             }

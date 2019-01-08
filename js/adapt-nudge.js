@@ -1,6 +1,6 @@
 define([
-    'coreJS/adapt',
-    'coreModels/componentModel',
+    'core/js/adapt',
+    'core/js/models/componentModel',
     './pageNudge',
     './trickleNudge'
 ], function(Adapt, ComponentModel) {
@@ -95,7 +95,7 @@ define([
 
             model.set({
                 '_nudge':_.extend({}, defaults, cfg),
-                '_isNudgeConfigured':true
+                '_isNudgeConfigured': true
             });
 
             return model.get('_nudge');
@@ -116,7 +116,7 @@ define([
 
             require('extensions/adapt-contrib-spoor/js/serializers/scormSuspendDataSerializer');
 
-            var data = SCORMSuspendData.deserialize(data);
+            data = SCORMSuspendData.deserialize(data);
             var i = 0;
 
             cfg._hasUserGotScroll = data[i++];
@@ -157,7 +157,7 @@ define([
                 cfg = this.getConfig(co);
                 data.push(cfg._isScrollEnabled, cfg._isPlpEnabled, cfg._isTrickleEnabled, cfg._isPageCompletionEnabled);
             }, this);
-            
+
             return data;
         },
 

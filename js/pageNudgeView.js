@@ -1,5 +1,5 @@
 define([
-    'coreJS/adapt',
+    'core/js/adapt',
     './enums/nudgeStateEnum'
 ], function(Adapt, NUDGE_STATE) {
 
