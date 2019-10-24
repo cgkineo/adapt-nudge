@@ -46,16 +46,21 @@ define([
 
             if (visible) {
                 if (this.state._mode == NUDGE_STATE.PLP) {
-                    var $plp = $('.page-level-progress-navigation');
+                    var $plp = $('.pagelevelprogress-navigation');
                     var margin = ($plp.position().left - this.$('.plp-nudge').position().left) + $plp.outerWidth()/2;
                     this.$('.plp-nudge .triangle').css('margin-left', margin - this.$('.plp-nudge .triangle').outerWidth()/2);
                 } else if (this.state._mode == NUDGE_STATE.COMPLETE) {
-                    var $target = $(this.state._completionTargetSelector);
+                    var $target = $('.navigation-home-button');
                     var margin = ($target.position().left - this.$('.complete-nudge').position().left) + $target.outerWidth()/2;
                     this.$('.complete-nudge .triangle').css('margin-left', margin - this.$('.complete-nudge .triangle').outerWidth()/2);
                 }
             }
+             if (Adapt.course.get("_isComplete")) {
+            this.setVisible(false);
+        }
         },
+        
+       
 
         setMode:function(mode) {
             this.state._mode = mode;
