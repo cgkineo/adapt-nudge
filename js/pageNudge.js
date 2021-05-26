@@ -55,8 +55,10 @@ define([
 
 			if (!showScrollNudge && !showPlpNudge && !showPageCompletionNudge) return;
 
+			var componentModels = view.model.findDescendantModels('components');
+
 			this._view = view;
-			this._components = this._view.model.findDescendants('components');
+			this._components = new Backbone.Collection(componentModels);
 			this._overlayCount = 0;
 			this._indicateToUser = false;
 			this._finished = false;
